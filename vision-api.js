@@ -79,4 +79,6 @@ function sendFileToCloudVision(content) {
 function displayJSON(data) {
   var contents = JSON.stringify(data, null, 4);
   $("#results").text(contents);
+
+  parseResponse(data);
 }
