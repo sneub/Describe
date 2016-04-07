@@ -24,9 +24,9 @@
   </form>
 
 <h1>Take picture!</h1>
-<video id="video" width="640" height="480" autoplay></video>
-<button id="snap">Snap Photo</button>
-<canvas id="canvas" width="640" height="480"></canvas>
+<video id="video" width="320" height="240" autoplay></video><br/>
+<button id="snap">Snap Photo</button><br/>
+<canvas id="canvas" width="320" height="240"></canvas><br/>
 <div id="base64"></div>
 
 <h1>Results</h1>
@@ -69,9 +69,11 @@
   document.getElementById("snap").addEventListener("click", function() {
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
-    context.drawImage(video, 0, 0, 640, 480);
+    context.drawImage(video, 0, 0, 320, 240);
     var jpegUrl = canvas.toDataURL("image/jpeg");
     document.getElementById("base64").innerHTML = jpegUrl;
+    sendFileToCloudVision(
+      jpegUrl.replace("data:image/jpeg;base64,", ""))
   });
 </script>
 
