@@ -2,7 +2,7 @@
 /**
  * Enable native HTML camera capture
  */ 
- 
+
 // Put event listeners into place
 window.addEventListener("DOMContentLoaded", function() {
   // Grab elements, create settings, etc.
@@ -40,7 +40,7 @@ window.onload=function(){
   document.getElementById("video").addEventListener("click", function() {
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
-    context.drawImage(video, 0, 0, 320, 240);
+    context.drawImage(video, 0, 0, 400, 300);
     var jpegUrl = canvas.toDataURL("image/jpeg");
     document.getElementById("base64").innerHTML = jpegUrl;
     sendFileToCloudVision(
