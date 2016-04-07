@@ -59,19 +59,18 @@ function sendFileToCloudVision(content) {
       features: [
 	      {
 	        type: "LABEL_DETECTION",
-	        maxResults: 5
+	        maxResults: 3
 	      },
 	      {
 	        type: "FACE_DETECTION",
-	        maxResults: 5
+	        maxResults: 2
 	      },
 	      {
 	        type: "LANDMARK_DETECTION",
-	        maxResults: 5
+	        maxResults: 2
 	      },	      
 	      {
 	        type: "SAFE_SEARCH_DETECTION",
-	        maxResults: 5
 	      },	
       ]
     }]
@@ -83,16 +82,7 @@ function sendFileToCloudVision(content) {
     data: JSON.stringify(request),
     contentType: 'application/json'
   }).fail(function(jqXHR, textStatus, errorThrown) {
-    $('#results').text('ERRORS: ' + textStatus + ' ' + errorThrown);
+  	speak("I have no idea what this is, stop wasting my time !");
+    console.log('ERRORS: ' + textStatus + ' ' + errorThrown);
   }).done(parseResponse);
-}
-
-/**
- * Displays the results.
- */
-function displayJSON(data) {
-  var contents = JSON.stringify(data, null, 4);
-  $("#results").text(contents);
-
-  parseResponse(data.responses[0]);
 }

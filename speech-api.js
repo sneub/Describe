@@ -3,18 +3,19 @@
  * Parses the response from the Vision api
  */
 function parseResponse(data) {
-	console.log(JSON.stringify(data, null, 4));
+	//console.log(JSON.stringify(data, null, 4));
 
 	if (!data) {
 		speak("I have no idea what this is, stop wasting my time !");	
 		return;	
 	}
+	
 	data = data.responses[0];
 
 	var description = 
+		landmarkDescriptor(data.landmarkAnnotations) + " " +
 		labelDescriptor(data.labelAnnotations) + " " +
 		peopleDescriptor(data.faceAnnotations) + " " + 
-		landmarkDescriptor(data.landmarkAnnotation) + " " +
 		safeSearchDescriptor(data.safeSearchAnnotation);
 
 	$("#resultsDescription").text(description);
@@ -22,21 +23,49 @@ function parseResponse(data) {
 	speak(description);
 }
 
+function landmarkDescriptor(data) {
+	if (!data) {
+		return "";
+	}
+
+	var intro = "This looks like a famous landmark, probably";
+	var closing = ".";
+	var elements = "";
+	var prefix = " the ";
+
+	for (var i = 0; i < data.length; i++) {
+		if (i != 0) {
+			prefix = " or the ";			
+		}
+		elements = elements + prefix + data[i].description;
+	}
+
+	if (elements == "") {
+		return "";
+	}
+
+	return intro + elements + closing;
+}
+
 function labelDescriptor(data) {
 	if (!data) {
 		return "";
 	}
 
-	var intro = "This looks like";
+	var intro = "I see";
 	var closing = ".";
 	var elements = "";
 	var prefix = " a ";
 
 	for (var i = 0; i < data.length; i++) {
 		if (i != 0) {
-			prefix = " and a ";		
+			prefix = " or a ";		
 		}
 		elements = elements + prefix + data[i].description;
+	}
+
+	if (elements == "") {
+		return "";
 	}
 
 	return intro + elements + closing;
@@ -62,7 +91,7 @@ function peopleDescriptor(data) {
 	if (data.angerLikelihood != "VERY_UNLIKELY") {
 		elements += " angry";		
 	}
-	if (data.surpriseLikelihoo != "VERY_UNLIKELY") {
+	if (data.surpriseLikelihood != "VERY_UNLIKELY") {
 		elements += " surprised";
 	}
 	if (elements != "") {
@@ -88,29 +117,20 @@ function peopleDescriptor(data) {
 	var headCap = "";
 	if (data.headwearLikelihood != "VERY_UNLIKELY") {
 		headCap = "And nice hat bro !";
-	}	
-
-	return emotion + ". " + pictureQuality + ". " + headCap;
-}
-
-function landmarkDescriptor(data) {
-	if (!data) {
-		return "";
 	}
 
-	var intro = "This looks like";
-	var closing = ".";
-	var elements = "";
-	var prefix = " a ";
-
-	for (var i = 0; i < data.length; i++) {
-		if (i != 0) {
-			prefix = " and a ";			
-		}
-		elements = elements + prefix + data[i].description;
+	var result = "";
+	if (emotion != "") {
+		result += emotion + " ";
+	}
+	if (emotion != "") {
+		result += pictureQuality + " ";
+	}
+	if (emotion != "") {
+		result += headCap + " ";
 	}
 
-	return intro + elements + closing;
+	return result;
 }
 
 function safeSearchDescriptor(data) {
@@ -125,8 +145,9 @@ function safeSearchDescriptor(data) {
 	return "";	
 }
 
-// Create a new utterance for the specified text and add it to
-// the queue.
+/*
+ * Speaks out loud the input text sentence
+ */
 function speak(text) {
     var u = new SpeechSynthesisUtterance(text);
     speechSynthesis.speak(u);
