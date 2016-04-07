@@ -16,6 +16,7 @@ function parseResponse(data) {
 		landmarkDescriptor(data.landmarkAnnotations) + " " +
 		labelDescriptor(data.labelAnnotations) + " " +
 		peopleDescriptor(data.faceAnnotations) + " " + 
+		logoDescriptor(data.logoAnnotations) + " " +
 		safeSearchDescriptor(data.safeSearchAnnotation);
 
 	$("#resultsDescription").text(description);
@@ -133,6 +134,18 @@ function peopleDescriptor(data) {
 	return result;
 }
 
+function logoDescriptor(data) {
+	if (!data) {
+		return "";
+	}
+
+	var intro = "Is that a ";
+	var closing = ". I hate that brand !";
+	var element = data[0].description;
+
+	return intro + element + closing;
+}
+
 function safeSearchDescriptor(data) {
 	if (!data) {
 		return "";
@@ -149,6 +162,16 @@ function safeSearchDescriptor(data) {
  * Speaks out loud the input text sentence
  */
 function speak(text) {
-    var u = new SpeechSynthesisUtterance(text);
-    speechSynthesis.speak(u);
+    var msg = new SpeechSynthesisUtterance(text);
+	var voices = window.speechSynthesis.getVoices();
+    msg.default = false;
+	msg.voice = voices.filter(function(voice) { return voice.name == 'Alice'; })[0];
+    msg.lang = 'en-GB';
+
+	/*msg.voiceURI = 'native';
+	msg.volume = 1; // 0 to 1
+	msg.rate = 1; // 0.1 to 10
+	msg.pitch = 2; //0 to 2
+	msg.lang = 'en-US';    */
+    speechSynthesis.speak(msg);
 }

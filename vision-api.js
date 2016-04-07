@@ -68,10 +68,14 @@ function sendFileToCloudVision(content) {
 	      {
 	        type: "LANDMARK_DETECTION",
 	        maxResults: 2
-	      },	      
+	      },
+	      {
+	        type: "LOGO_DETECTION",
+	        maxResults: 1
+	      },	      	      
 	      {
 	        type: "SAFE_SEARCH_DETECTION",
-	      },	
+	      }	
       ]
     }]
   };
