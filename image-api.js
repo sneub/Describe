@@ -37,7 +37,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 // Trigger photo take
 window.onload=function(){
-  document.getElementById("snap").addEventListener("click", function() {
+  document.getElementById("video").addEventListener("click", function() {
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
     context.drawImage(video, 0, 0, 320, 240);
