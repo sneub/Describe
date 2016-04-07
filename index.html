@@ -23,6 +23,57 @@
     <input type="submit" name="submit" value="Submit">
   </form>
 
-  <code style="white-space:pre" id="resultsDescription"></code>
+<h1>Take picture!</h1>
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+<div id="base64"></div>
+
+<h1>Results</h1>
+<code style="white-space:pre" id="resultsDescription"></code>
+
+<script>
+  // Put event listeners into place
+  window.addEventListener("DOMContentLoaded", function() {
+    // Grab elements, create settings, etc.
+    var canvas = document.getElementById("canvas"),
+      context = canvas.getContext("2d"),
+      video = document.getElementById("video"),
+      videoObj = { "video": true },
+      errBack = function(error) {
+        console.log("Video capture error: ", error.code); 
+      };
+
+    // Put video listeners into place
+    if(navigator.getUserMedia) { // Standard
+      navigator.getUserMedia(videoObj, function(stream) {
+        video.src = stream;
+        video.play();
+      }, errBack);
+    } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+      navigator.webkitGetUserMedia(videoObj, function(stream){
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+      }, errBack);
+    } else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+      navigator.mozGetUserMedia(videoObj, function(stream){
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+      }, errBack);
+    } else {
+      alert('Sorry, your browser does not support getUserMedia');
+    }
+  }, false);
+
+  // Trigger photo take
+  document.getElementById("snap").addEventListener("click", function() {
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    context.drawImage(video, 0, 0, 640, 480);
+    var jpegUrl = canvas.toDataURL("image/jpeg");
+    document.getElementById("base64").innerHTML = jpegUrl;
+  });
+</script>
+
 </body>
 </html>
