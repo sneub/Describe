@@ -59,7 +59,7 @@ function sendFileToCloudVision(content) {
       features: [
 	      {
 	        type: "LABEL_DETECTION",
-	        maxResults: 3
+	        maxResults: 2
 	      },
 	      {
 	        type: "FACE_DETECTION",

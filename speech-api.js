@@ -1,3 +1,13 @@
+/**
+ * Voices pre-loading
+ */
+var speech_voices;
+if ('speechSynthesis' in window) {
+  speech_voices = window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = function() {
+    speech_voices = window.speechSynthesis.getVoices();
+  };
+}
 
 /**
  * Parses the response from the Vision api
@@ -30,7 +40,8 @@ function landmarkDescriptor(data) {
 	}
 
 	var intro = "This looks like a famous landmark, probably";
-	var closing = ".";
+	var items = [". It's a shame it's so ugly.",". It's beautiful"]
+	var closing = items[Math.floor(Math.random()*items.length)];	
 	var elements = "";
 	var prefix = " the ";
 
@@ -53,8 +64,9 @@ function labelDescriptor(data) {
 		return "";
 	}
 
-	var intro = "I see";
-	var closing = ".";
+	var intro = "I think I see";
+	var items = [". Boring...",". Brilliant...",". Strange..."]
+	var closing = items[Math.floor(Math.random()*items.length)];
 	var elements = "";
 	var prefix = " a ";
 
@@ -87,13 +99,25 @@ function peopleDescriptor(data) {
 		elements += " happy";
 	}
 	if (data.sorrowLikelihood != "VERY_UNLIKELY") {
-		elements += " sad";
+		if (elements != "") {
+			elements += " or sad";
+		} else {
+			elements += " sad";
+		}
 	}
 	if (data.angerLikelihood != "VERY_UNLIKELY") {
-		elements += " angry";		
+		if (elements != "") {
+			elements += " angry";					
+		} else {
+			elements += " angry";			
+		}	
 	}
 	if (data.surpriseLikelihood != "VERY_UNLIKELY") {
-		elements += " surprised";
+		if (elements != "") {
+			elements += " or surprised";	
+		} else {
+			elements += " surprised";	
+		}		
 	}
 	if (elements != "") {
 		var emotion = intro + elements + closing;		
@@ -117,7 +141,7 @@ function peopleDescriptor(data) {
 
 	var headCap = "";
 	if (data.headwearLikelihood != "VERY_UNLIKELY") {
-		headCap = "And nice hat bro !";
+		headCap = "And nice hat !";
 	}
 
 	var result = "";
@@ -140,7 +164,8 @@ function logoDescriptor(data) {
 	}
 
 	var intro = "Is that a ";
-	var closing = ". I hate that brand !";
+	var items = ["logo ? I hate that brand !","logo ? I love that brand !"]
+	var closing = items[Math.floor(Math.random()*items.length)];	
 	var element = data[0].description;
 
 	return intro + element + closing;
@@ -151,8 +176,8 @@ function safeSearchDescriptor(data) {
 		return "";
 	}
 
-	if (data.adult != "VERY_UNLIKELY") {
-		return	"There's something kinky, I like it !";	
+	if (data.adult != "UNLIKELY" && data.adult != "VERY_UNLIKELY") {
+		return	"There's something kinky about it, I like it !";	
 	}
 
 	return "";	
@@ -163,15 +188,7 @@ function safeSearchDescriptor(data) {
  */
 function speak(text) {
     var msg = new SpeechSynthesisUtterance(text);
-	var voices = window.speechSynthesis.getVoices();
-    msg.default = false;
-	msg.voice = voices.filter(function(voice) { return voice.name == 'Alice'; })[0];
-    msg.lang = 'en-GB';
-
-	/*msg.voiceURI = 'native';
-	msg.volume = 1; // 0 to 1
-	msg.rate = 1; // 0.1 to 10
+	msg.voice = speech_voices.filter(function(voice) { return voice.name == 'Daniel'; })[0];
 	msg.pitch = 2; //0 to 2
-	msg.lang = 'en-US';    */
     speechSynthesis.speak(msg);
 }
