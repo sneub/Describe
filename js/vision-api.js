@@ -59,11 +59,11 @@ function sendFileToCloudVision(content) {
       features: [
 	      {
 	        type: "LABEL_DETECTION",
-	        maxResults: 1
+	        maxResults: 2
 	      },
 	      {
 	        type: "FACE_DETECTION",
-	        maxResults: 1
+	        maxResults: 2
 	      },
 	      {
 	        type: "LANDMARK_DETECTION",

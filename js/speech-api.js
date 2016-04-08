@@ -65,7 +65,7 @@ function labelDescriptor(data) {
 	}
 
 	var intro = "I think I see";
-	var items = [". Boring...",". Brilliant...",". Strange...",". What a useless thing..."]
+	var items = [". Boring...",". Brilliant...",". Strange...",". Gimme a high five Mike !",". 10X impact !",". What a useless thing..."]
 	var closing = items[Math.floor(Math.random()*items.length)];
 	var elements = "";
 	var prefix = " a ";
