@@ -73,10 +73,11 @@ function takePicture() {
 }
 
 function switchSource() {
+  console.log("Switching...");
   if (cameraIds.length > 1) {
     currentCamera = (currentCamera + 1) % cameraIds.length;
+    showVideo();
   }
-  showVideo();
 }
 
 // Put event listeners into place
@@ -85,4 +86,3 @@ window.onload = function() {
   $("#switch-btn").on("click", switchSource);  
   showVideo();
 };
-
