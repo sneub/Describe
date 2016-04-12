@@ -3,6 +3,12 @@
  * Enable native HTML camera capture
  */ 
 
+// Force HTTPS
+if (window.location.protocol != "https:") {
+    window.location.href = 
+    "https:" + window.location.href.substring(window.location.protocol.length);
+}
+
 // Put event listeners into place
 window.addEventListener("DOMContentLoaded", function() {
   // Grab elements, create settings, etc.
