@@ -28,9 +28,9 @@ navigator.mediaDevices.enumerateDevices()
 
 function showVideo() {
   // Grab elements, create settings, etc.
-  var canvas = document.getElementById("canvas");
+  var canvas = $("#canvas")[0];
   var context = canvas.getContext("2d");
-  var video = document.getElementById("video");
+  var video = $("#video")[0];
   var videoObj = {
     "video": {
       "optional": [{"sourceId": cameraIds[currentCamera]}]
@@ -64,7 +64,7 @@ function showVideo() {
 function takePicture() {
   $("#upload-form").submit();
 
-  var canvas = document.getElementById("canvas");
+  var canvas = $("#canvas")[0];
   var context = canvas.getContext("2d");
   context.drawImage(video, 0, 0, 400, 300);
   var jpegUrl = canvas.toDataURL("image/jpeg");
@@ -72,16 +72,17 @@ function takePicture() {
     jpegUrl.replace("data:image/jpeg;base64,", ""))
 }
 
-
-// Put event listeners into place
-window.onload = function() {
-  document.getElementById("capture-btn").addEventListener("click", takePicture);
-  showVideo();
-};
-
 function switchSource() {
   if (cameraIds.length > 1) {
     currentCamera = (currentCamera + 1) % cameraIds.length;
   }
   showVideo();
 }
+
+// Put event listeners into place
+window.onload = function() {
+  $("#capture-btn").on("click", takePicture);
+  $("#switch-btn").on("click", switchSource);  
+  showVideo();
+};
+
