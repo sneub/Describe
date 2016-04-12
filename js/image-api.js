@@ -1,13 +1,12 @@
 /**
  * Enable native HTML camera capture
  */ 
-/*
+
 // Force HTTPS (comment out for local use)
-if (window.location.protocol != "https:") {
+if (window.location.hostname != "localhost" && window.location.protocol != "https:") {
     window.location.href = 
     "https:" + window.location.href.substring(window.location.protocol.length);
 }
-*/
 
 if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
   console.log("enumerateDevices() not supported.");

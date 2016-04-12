@@ -7,7 +7,6 @@ if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = function() {
     speech_voices = window.speechSynthesis.getVoices();
   };
-  console.log(speech_voices);
 }
 
 /**
