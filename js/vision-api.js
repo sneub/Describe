@@ -17,7 +17,15 @@ var apiKey = "AIzaSyAztm0VuBxU20ISVXYC7ht_srKWcIx0pkE";
 var CV_URL = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
 
 $(document).ready(function() {
-  $('#fileform').on('submit', uploadFiles);
+  $("#fileform").on("submit", uploadFiles);
+
+  $("#upload-btn").on("click", function(){
+    $("#picture-picker").click();
+  });
+
+  $("#picture-picker").change(function(){
+    $("#fileform").submit();
+ });
 });
 
 /**

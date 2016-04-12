@@ -2,12 +2,11 @@
   display:none;
 }
 
-#canvas {
+#canvas-container {
   display: block;
   position: absolute;
   top: 10px;
   left: 10px;
-  /*background-color:red;*/
 }
 
 #video-bg > video {
@@ -35,3 +34,15 @@
     object-fit: cover;
   }
 }
+
+#btn-container {
+  position: absolute;
+  bottom: 5%;
+  left: 40%;
+}
+
+.big {
+  height: 100px !important;
+  width: 100px !important;
+}
+

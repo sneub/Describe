@@ -13,7 +13,7 @@ if ('speechSynthesis' in window) {
  * Parses the response from the Vision api
  */
 function parseResponse(data) {
-	//console.log(JSON.stringify(data, null, 4));
+	console.log(JSON.stringify(data, null, 4));
 
 	if (!data) {
 		speak("I have no idea what this is, stop wasting my time !");	
