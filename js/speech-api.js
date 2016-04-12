@@ -7,13 +7,14 @@ if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = function() {
     speech_voices = window.speechSynthesis.getVoices();
   };
+  console.log(speech_voices);
 }
 
 /**
  * Parses the response from the Vision api
  */
 function parseResponse(data) {
-	console.log(JSON.stringify(data, null, 4));
+	//console.log(JSON.stringify(data, null, 4));
 
 	if (!data) {
 		speak("I have no idea what this is, stop wasting my time !");	
@@ -65,7 +66,7 @@ function labelDescriptor(data) {
 	}
 
 	var intro = "I think I see";
-	var items = [". Boring...",". Brilliant...",". Strange...",". Gimme a high five Mike !",". 10X impact !",". What a useless thing..."]
+	var items = [". Boring...",". Brilliant...",". Strange...",". What a useless thing..."]
 	var closing = items[Math.floor(Math.random()*items.length)];
 	var elements = "";
 	var prefix = " a ";
@@ -140,9 +141,12 @@ function peopleDescriptor(data) {
 	}
 
 	var headCap = "";
+	// Hat detection is too enthusiastic at the moment	
+	/*
 	if (data.headwearLikelihood != "VERY_UNLIKELY") {
 		headCap = "And nice hat !";
 	}
+	*/
 
 	var result = "";
 	if (emotion != "") {
@@ -187,8 +191,13 @@ function safeSearchDescriptor(data) {
  * Speaks out loud the input text sentence
  */
 function speak(text) {
+	var platform = navigator.platform;
     var msg = new SpeechSynthesisUtterance(text);
-	msg.voice = speech_voices.filter(function(voice) { return voice.name == 'Daniel'; })[0];
-	msg.pitch = 2; //0 to 2
+    if (platform === "MacIntel") {
+		msg.voice = speech_voices.filter(function(voice) { return voice.name == 'Daniel'; })[0];
+		msg.pitch = 2;
+	} else {
+		msg.voice = speech_voices.filter(function(voice) { return voice.name == 'Google UK English Male'; })[0];	
+	}
     speechSynthesis.speak(msg);
 }
