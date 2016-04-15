@@ -80,9 +80,55 @@ function switchSource() {
   }
 }
 
+/**
+ * 'submit' event handler - reads the image bytes
+ */
+function uploadFiles(event) {
+  event.preventDefault(); // Prevent the default form post
+
+  // Grab the file and asynchronously convert to base64.
+  var file = $('#fileform [name=fileField]')[0].files[0];
+  var reader = new FileReader();
+  reader.onloadend = processFile;
+  reader.readAsDataURL(file);
+}
+
+/**
+ * Event handler for a file's data url - extract the image data and pass it off.
+ */
+function processFile(event) {
+  var content = event.target.result;
+  var img = new Image();
+  img.src = content;
+  (function(){
+      if (img.complete){
+          var canvas = $("#canvas")[0];
+          var context = canvas.getContext("2d");
+          context.drawImage(img, 0, 0, 400, 300);
+          }
+      else {
+          setTimeout(arguments.callee, 50);
+          }
+      })();
+
+  sendFileToCloudVision(
+      content.replace("data:image/jpeg;base64,", ""));
+}
+
 // Put event listeners into place
-window.onload = function() {
+$(document).ready(function() {
+  $("#fileform").on("submit", uploadFiles);
+
+  $("#upload-btn").on("click", function(){
+    $("#picture-picker").click();
+  });
+
+  $("#picture-picker").change(function(){
+    $("#fileform").submit();
+ });
+
   $("#capture-btn").on("click", takePicture);
   $("#switch-btn").on("click", switchSource);  
-  showVideo();
-};
+  showVideo();  
+});
+

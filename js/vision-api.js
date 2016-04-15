@@ -16,41 +16,6 @@
 var apiKey = "AIzaSyAztm0VuBxU20ISVXYC7ht_srKWcIx0pkE";
 var CV_URL = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
 
-$(document).ready(function() {
-  $("#fileform").on("submit", uploadFiles);
-
-  $("#upload-btn").on("click", function(){
-    $("#picture-picker").click();
-  });
-
-  $("#picture-picker").change(function(){
-    $("#fileform").submit();
- });
-});
-
-/**
- * 'submit' event handler - reads the image bytes and sends it to the Cloud
- * Vision API.
- */
-function uploadFiles(event) {
-  event.preventDefault(); // Prevent the default form post
-
-  // Grab the file and asynchronously convert to base64.
-  var file = $('#fileform [name=fileField]')[0].files[0];
-  var reader = new FileReader();
-  reader.onloadend = processFile;
-  reader.readAsDataURL(file);
-}
-
-/**
- * Event handler for a file's data url - extract the image data and pass it off.
- */
-function processFile(event) {
-  var content = event.target.result;
-  sendFileToCloudVision(
-      content.replace("data:image/jpeg;base64,", ""));
-}
-
 /**
  * Sends the given file contents to the Cloud Vision API and outputs the
  * results.
