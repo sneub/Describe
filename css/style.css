@@ -38,5 +38,11 @@
 #btn-container {
   position: absolute;
   bottom: 5%;
-  left: 40%;
+  left: 50%;
+}
+
+#inner-buttons {
+  position: relative;
+  left: -50%;
+
 }
