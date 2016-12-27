@@ -13,7 +13,7 @@
 
 
 // Expecting this line in file named key.js
-var apiKey = "AIzaSyAztm0VuBxU20ISVXYC7ht_srKWcIx0pkE";
+var apiKey = "YOUR_API_KEY";
 var CV_URL = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
 
 $(document).ready(function() {
