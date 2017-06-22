@@ -14,12 +14,12 @@ window.addEventListener("DOMContentLoaded", function() {
       console.log("Video capture error: ", error.code); 
     };
 
-  // Put video listeners into place
-  if(navigator.getUserMedia) { // Standard
-    navigator.getUserMedia(videoObj, function(stream) {
-      video.src = stream;
+  if(navigator.mediaDevices) { // Standard
+    navigator.mediaDevices.getUserMedia({ audio: false, video: true })
+    .then(function(stream) {
+      video.srcObject = stream;
       video.play();
-    }, errBack);
+    }).catch(errBack);
   } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
     navigator.webkitGetUserMedia(videoObj, function(stream){
       video.src = window.URL.createObjectURL(stream);
